@@ -1,6 +1,7 @@
 export default function decorate(block) {
   const slides = [...block.children];
   const total = slides.length;
+  let current = 0;
 
   // Wrap each slide
   slides.forEach((slide, i) => {
@@ -36,18 +37,6 @@ export default function decorate(block) {
 
   const dots = document.createElement('div');
   dots.className = 'carousel-dots';
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = `carousel-dot${i === 0 ? ' active' : ''}`;
-    dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-    dot.addEventListener('click', () => goTo(i));
-    dots.append(dot);
-  });
-
-  nav.append(prevBtn, dots, nextBtn);
-  block.append(nav);
-
-  let current = 0;
 
   function goTo(index) {
     slides[current].classList.remove('active');
@@ -59,4 +48,14 @@ export default function decorate(block) {
 
   prevBtn.addEventListener('click', () => goTo(current - 1));
   nextBtn.addEventListener('click', () => goTo(current + 1));
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = `carousel-dot${i === 0 ? ' active' : ''}`;
+    dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+    dot.addEventListener('click', () => goTo(i));
+    dots.append(dot);
+  });
+
+  nav.append(prevBtn, dots, nextBtn);
+  block.append(nav);
 }

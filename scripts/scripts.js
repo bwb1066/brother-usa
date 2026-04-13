@@ -274,7 +274,6 @@ async function loadPage() {
 
 loadPage();
 
-
 (async function loadDa() {
   if (!new URL(window.location.href).searchParams.get('dapreview')) return;
   // eslint-disable-next-line import/no-unresolved

@@ -110,16 +110,40 @@
 /* mobile */
 @media (width <= 899px) {
   .hero {
-    min-height: 300px;
+    height: auto;
+    flex-direction: column;
+    margin-top: 0;
+  }
+
+  .hero picture {
+    position: relative;
+    inset: unset;
+  }
+
+  .hero img {
+    height: auto;
   }
 
   .hero-text {
-    max-width: 90%;
-    padding: 24px 32px;
+    position: relative;
+    max-width: 100%;
+    background: none;
+    padding: 24px 16px;
+    align-self: stretch;
+    margin-top: 0;
   }
 
   .hero-text h1 {
     font-size: 28px;
     line-height: 34px;
+    color: var(--brand-blue-dark);
+  }
+
+  .section:not(:first-of-type) .hero {
+    height: auto;
+  }
+
+  .section:not(:first-of-type) .hero-text {
+    max-width: 100%;
   }
 }

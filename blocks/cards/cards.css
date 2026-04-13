@@ -68,11 +68,6 @@
   margin: 0 0 12px;
 }
 
-.cards .cards-card-body h3 a:any-link {
-  color: var(--text-color);
-  text-decoration: none;
-}
-
 .cards .cards-card-body p {
   font-family: var(--body-font-family);
   font-size: 15px;
@@ -90,6 +85,12 @@
   font-weight: 400;
   text-decoration: none;
   font-size: 15px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards .cards-card-body h3 a:any-link {
+  color: var(--text-color);
+  text-decoration: none;
 }
 
 .cards .cards-card-body a:any-link::after {
