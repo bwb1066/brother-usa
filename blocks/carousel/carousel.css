@@ -1,0 +1,134 @@
+/* carousel section background */
+.carousel-container {
+  background-color: #f5f6f8;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.carousel-container h2 {
+  font-size: 36px;
+  margin-bottom: 24px;
+  padding-top: 40px;
+}
+
+/* carousel block */
+.carousel {
+  position: relative;
+}
+
+.carousel-slide {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.carousel-slide.active {
+  display: grid;
+  background: #fff;
+}
+
+.carousel-slide-text {
+  padding: 48px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.carousel-slide-text h1 {
+  font-family: var(--heading-font-family);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 42px;
+  color: var(--text-color);
+  margin: 0 0 16px;
+}
+
+.carousel-slide-text p {
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--text-color);
+  margin: 0 0 12px;
+}
+
+.carousel-slide-text a:any-link {
+  color: var(--link-color, #0052c2);
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.carousel-slide-text a:any-link::after {
+  content: " \2192";
+}
+
+.carousel-slide-image {
+  line-height: 0;
+}
+
+.carousel-slide-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* navigation */
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 0;
+  margin-bottom: 40px;
+  background: #fff;
+}
+
+.carousel-arrow {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-color);
+  padding: 4px 8px;
+}
+
+.carousel-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.carousel-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--text-color);
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.carousel-dot.active {
+  background: var(--text-color);
+}
+
+/* mobile */
+@media (width <= 899px) {
+  .carousel-slide {
+    grid-template-columns: 1fr;
+  }
+
+  .carousel-slide-text {
+    padding: 24px 32px;
+    order: 1;
+  }
+
+  .carousel-slide-image {
+    order: 0;
+  }
+
+  .carousel-slide-text h1 {
+    font-size: 28px;
+    line-height: 34px;
+  }
+}

@@ -87,6 +87,9 @@ function decorateButtons(main) {
     // quick structural checks
     if (a.querySelector('img') || p.textContent.trim() !== text) return;
 
+    // skip buttonization inside cards blocks
+    if (a.closest('.cards')) return;
+
     // skip URL display links
     try {
       if (new URL(a.href).href === new URL(text, window.location).href) return;
@@ -114,6 +117,83 @@ function decorateButtons(main) {
 }
 
 /**
+ * Decorates disclaimer expanders (strong text followed by an ol/ul).
+ * Only runs on the page's main element, not on fragments.
+ * @param {HTMLElement} main The main container element
+ */
+function decorateDisclaimers(main) {
+  // Only run on the actual page main, not fragment mains
+  if (main !== document.querySelector('main')) return;
+
+  main.querySelectorAll('p > strong').forEach((strong) => {
+    const p = strong.closest('p');
+    if (!p) return;
+    // Skip if inside a block (strong links in blocks shouldn't become disclaimers)
+    if (p.querySelector('a')) return;
+    const list = p.nextElementSibling;
+    if (!list || (list.tagName !== 'OL' && list.tagName !== 'UL')) return;
+
+    const wrapper = document.createElement('details');
+    wrapper.className = 'disclaimer';
+    const summary = document.createElement('summary');
+    summary.textContent = strong.textContent;
+    wrapper.append(summary);
+    wrapper.append(list);
+    p.replaceWith(wrapper);
+  });
+}
+
+/**
+ * Decorates newsletter signup sections.
+ * Converts "Stay Connected" h4 + "Subscribe" h4 into a form.
+ * @param {HTMLElement} main The main container element
+ */
+function decorateNewsletter(main) {
+  const headings = main.querySelectorAll('h4');
+  headings.forEach((h4) => {
+    if (h4.textContent.trim() !== 'Stay Connected') return;
+    const section = h4.closest('div');
+    if (!section) return;
+
+    const nextH4 = h4.nextElementSibling;
+    if (!nextH4 || nextH4.tagName !== 'H4') return;
+
+    // Build form
+    const wrapper = document.createElement('div');
+    wrapper.className = 'newsletter';
+
+    const title = document.createElement('h4');
+    title.className = 'newsletter-title';
+    title.textContent = 'Stay Connected';
+
+    const required = document.createElement('p');
+    required.className = 'newsletter-required';
+    required.textContent = '* Required fields';
+
+    const form = document.createElement('form');
+    form.className = 'newsletter-form';
+    form.addEventListener('submit', (e) => e.preventDefault());
+
+    const input = document.createElement('input');
+    input.type = 'email';
+    input.placeholder = 'Enter your email here *';
+    input.required = true;
+    input.className = 'newsletter-input';
+
+    const btn = document.createElement('button');
+    btn.type = 'submit';
+    btn.className = 'newsletter-btn';
+    btn.textContent = 'Subscribe';
+
+    form.append(input, btn);
+    wrapper.append(title, required, form);
+
+    h4.replaceWith(wrapper);
+    nextH4.remove();
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -123,7 +203,13 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
-  decorateButtons(main);
+  // Only run button/disclaimer decoration on page main, not fragments
+  const isPageMain = main === document.querySelector('main') || !document.querySelector('main');
+  if (isPageMain) {
+    decorateButtons(main);
+    decorateDisclaimers(main);
+    decorateNewsletter(main);
+  }
 }
 
 /**
@@ -187,3 +273,10 @@ async function loadPage() {
 }
 
 loadPage();
+
+
+(async function loadDa() {
+  if (!new URL(window.location.href).searchParams.get('dapreview')) return;
+  // eslint-disable-next-line import/no-unresolved
+  import('https://da.live/scripts/dapreview.js').then(({ default: daPreview }) => daPreview(loadPage));
+}());

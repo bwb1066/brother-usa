@@ -1,20 +1,137 @@
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+  background-color: #0d2ea0;
+  color: #fff;
+  font-size: 14px;
+  font-family: var(--body-font-family);
 }
 
 footer .footer > div {
   margin: auto;
   max-width: 1200px;
-  padding: 40px 24px 24px;
+  padding: 60px 24px 0;
 }
 
-footer .footer p {
+footer p {
   margin: 0;
 }
 
+/* columns layout */
+.footer-columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  padding-bottom: 40px;
+}
+
 @media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+  .footer-columns {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+}
+
+/* headings */
+.footer-heading {
+  color: rgb(255 255 255 / 70%);
+  font-size: 15px;
+  font-weight: 400;
+  margin: 20px 0 8px;
+}
+
+.footer-column:first-child .footer-heading {
+  margin-top: 12px;
+}
+
+/* links */
+.footer-column ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-column li {
+  margin: 0;
+  padding: 4px 0;
+}
+
+.footer-column li p {
+  margin: 0;
+}
+
+.footer-column a:any-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.footer-column a:hover {
+  text-decoration: underline;
+}
+
+/* primary links (bold with arrow) */
+a.footer-primary-link {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+a.footer-primary-link::after {
+  content: " \2192";
+}
+
+/* external link icon */
+a.external::after {
+  content: " \2197";
+  font-size: 12px;
+}
+
+a.footer-primary-link.external::after {
+  content: " \2192";
+}
+
+/* bottom bar - full width black */
+.footer-bottom {
+  background-color: #000;
+  padding-left: 44% !important;
+}
+
+.footer-bottom-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.footer-bottom-links {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.footer-bottom-links a:any-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-bottom-links a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom-links a.external::after {
+  content: " \2197";
+  font-size: 12px;
+}
+
+.footer-copyright {
+  color: rgb(255 255 255 / 70%);
+  font-size: 13px;
+}
+
+/* mobile */
+@media (width <= 899px) {
+  .footer-bottom-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
   }
 }
