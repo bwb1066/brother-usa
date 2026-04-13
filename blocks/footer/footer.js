@@ -141,8 +141,9 @@ export default async function decorate(block) {
     }
     bottomDiv.append(bottomInner);
 
-    container.replaceChildren(colsDiv, bottomDiv);
+    container.replaceChildren(colsDiv);
     block.append(footer);
+    block.append(bottomDiv);
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error('Footer decoration failed', e);

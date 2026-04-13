@@ -90,9 +90,12 @@ a.footer-primary-link.external::after {
 }
 
 /* bottom bar - full width black */
-.footer-bottom {
+footer .footer > .footer-bottom {
   background-color: #000;
-  padding-left: 44% !important;
+  max-width: unset;
+  margin: 0;
+  padding: 20px 24px;
+  text-align: center;
 }
 
 .footer-bottom-inner {
