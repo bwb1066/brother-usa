@@ -214,8 +214,8 @@
 .concierge-citation-card:any-link {
   display: flex;
   flex-direction: column;
-  min-width: 200px;
-  max-width: 240px;
+  min-width: 220px;
+  max-width: 260px;
   border: 1px solid var(--border-color, #ccc);
   border-radius: 10px;
   overflow: hidden;
@@ -223,6 +223,11 @@
   color: var(--text-color, #242727);
   flex-shrink: 0;
   transition: box-shadow 0.15s ease;
+}
+
+/* cards without images get more padding */
+.concierge-citation-card:not(:has(.concierge-citation-img)) .concierge-citation-text {
+  padding: 16px;
 }
 
 .concierge-citation-card:hover {

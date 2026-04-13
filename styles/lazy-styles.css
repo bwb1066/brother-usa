@@ -1,49 +1,60 @@
 /* add global styles that can be loaded post LCP here */
 
-/* floating AI launcher */
-.ai-launcher {
+/* sticky AI input bar */
+.ai-bar {
   position: fixed;
-  right: 24px;
-  bottom: 24px;
-  z-index: 200;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 250;
+  padding: 12px 24px 16px;
+  background: linear-gradient(to bottom, rgb(255 255 255 / 0%), rgb(255 255 255 / 95%) 40%);
+  pointer-events: none;
+}
+
+.ai-bar-inner {
+  max-width: 700px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: #0052c2;
-  color: #fff;
-  border: none;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid #ccc;
   border-radius: 28px;
-  padding: 8px;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 20%);
-  transition: padding 0.3s ease;
+  padding: 10px 14px 10px 18px;
+  box-shadow: 0 4px 24px rgb(0 0 0 / 15%);
+  pointer-events: all;
 }
 
-.ai-launcher:hover {
-  padding: 8px 16px 8px 20px;
+.ai-bar-icon {
+  flex-shrink: 0;
 }
 
-.ai-launcher-label {
-  max-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
+.ai-bar-input {
+  flex: 1;
+  border: none;
+  outline: none;
   font-family: var(--body-font-family, sans-serif);
-  font-size: 14px;
-  font-weight: 500;
-  transition: max-width 0.3s ease, opacity 0.3s ease;
-  opacity: 0;
+  font-size: 15px;
+  background: transparent;
+  color: var(--text-color, #242727);
 }
 
-.ai-launcher:hover .ai-launcher-label {
-  max-width: 280px;
-  opacity: 1;
+.ai-bar-input::placeholder {
+  color: #999;
 }
 
-.ai-launcher-icon {
+.ai-bar-send {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #bbb;
+  padding: 4px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
   flex-shrink: 0;
+}
+
+.ai-bar-send:hover {
+  color: var(--text-color, #242727);
 }

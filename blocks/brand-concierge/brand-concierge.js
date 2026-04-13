@@ -32,7 +32,10 @@ function close() {
 
 function markdownToHtml(md) {
   let html = md;
-  html = html.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+  // Convert markdown links to real links
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  // Auto-link bare URLs
+  html = html.replace(/(^|[\s>])((https?:\/\/[^\s<]+))/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
   html = html.replace(/^---$/gm, '<hr>');
   html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
   html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
