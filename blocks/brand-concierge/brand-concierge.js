@@ -34,8 +34,9 @@ function markdownToHtml(md) {
   let html = md;
   // Convert markdown links to real links
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-  // Auto-link bare URLs
-  html = html.replace(/(^|[\s>])((https?:\/\/[^\s<]+))/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+  // Auto-link bare URLs (with or without protocol)
+  html = html.replace(/(^|[\s>])((https?:\/\/[^\s<)]+))/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+  html = html.replace(/(^|[\s>(])(brother-usa\.com\/[^\s<)]+)/g, '$1<a href="https://$2" target="_blank" rel="noopener">$2</a>');
   html = html.replace(/^---$/gm, '<hr>');
   html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
   html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
@@ -97,10 +98,13 @@ function addMessage(container, text, role, citations, suggestions) {
     content.innerHTML = markdownToHtml(text);
     msg.append(content);
 
-    if (suggestions?.length) {
+    // Only keep __CONTACT__ suggestions, drop all AI-generated ones
+    const contactOnly = (suggestions || []).filter((q) => q === '__CONTACT__');
+
+    if (contactOnly.length) {
       const suggestionsEl = document.createElement('div');
       suggestionsEl.className = 'concierge-suggestions';
-      suggestions.filter((q) => q?.trim()).forEach((q) => {
+      contactOnly.forEach((q) => {
         if (q === '__CONTACT__') {
           const link = document.createElement('a');
           link.href = contactUrl;
@@ -183,6 +187,19 @@ async function sendMessage(messagesContainer, text) {
     if (!reply) reply = 'I wasn\'t able to find an answer. Please try rephrasing your question.';
 
     reply = reply.replace(/【[^】]*】/g, '');
+
+    // Strip trailing clarifying questions from the response text
+    const replyLines = reply.split('\n');
+    while (replyLines.length) {
+      const last = replyLines[replyLines.length - 1].trim();
+      if (!last) { replyLines.pop(); continue; }
+      if (last.endsWith('?') || last.startsWith('SUGGESTED:')) {
+        replyLines.pop();
+      } else {
+        break;
+      }
+    }
+    reply = replyLines.join('\n').trimEnd();
 
     if (shouldShowContact(text)) {
       suggestions.push('__CONTACT__');
